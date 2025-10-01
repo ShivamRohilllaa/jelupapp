@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jel Me Up — Hyper-local Dating</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons (for store badges) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0b10;
+      --bg2:#151523;
+      --accent:#c66bff;
+      --accent2:#6be0ff;
+      --muted:#9aa4b2;
+      --card:#141423;
+      --glass:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+      --glow: 0 0 25px rgba(198,107,255,.55), 0 0 50px rgba(107,224,255,.35);
+      --text-shadow: 0 2px 16px rgba(198,107,255,.35), 0 4px 30px rgba(107,224,255,.25);
+      --radius:20px;
+    }
+    html,body{background: radial-gradient(1200px 900px at 70% -10%, #1f1740 0%, var(--bg) 45%) fixed; color:#fff;}
+    .text-shadow{ text-shadow: var(--text-shadow); }
+    .navbar{ background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,0)); backdrop-filter: blur(6px); }
+    .brand-heart{ filter: drop-shadow(0 0 12px rgba(198,107,255,.6)); height:42px; }
+    .hero{
+      min-height: 90vh;
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"Jel Me Up";
+      position:absolute; inset:auto -10% -10% auto;
+      font-size: clamp(7rem, 14vw, 18rem);
+      font-weight:800; line-height:.8; opacity:.06;
+      color:#fff; text-shadow: var(--glow);
+      white-space:nowrap; pointer-events:none;
+    }
+    .glass{
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.03));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 50px rgba(0,0,0,.45), var(--glow);
+    }
+    .btn-glow{
+      color:#fff; border:1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px);
+      background: linear-gradient(135deg, rgba(198,107,255,.22), rgba(107,224,255,.12));
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn-glow:hover{ transform: translateY(-2px); box-shadow: var(--glow); border-color: rgba(255,255,255,.35); color:#fff; }
+
+    .store-badge{
+      display:flex; align-items:center; gap:.6rem; padding:.8rem 1.1rem; border-radius:14px;
+      border:1px solid rgba(255,255,255,.18); text-decoration:none; color:#fff;
+      background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .store-badge:hover{ transform: translateY(-2px); box-shadow: var(--glow); color:#fff; border-color:rgba(255,255,255,.35); }
+    .store-badge .bi{ font-size:1.8rem; }
+
+    .section{ padding: 5rem 0; }
+    .section-title{
+      font-weight:800; letter-spacing:.5px; text-shadow: var(--text-shadow);
+      background: linear-gradient(90deg, #fff, #d9c8ff 40%, #b4f0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    .feature-card, .about-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:18px; padding:24px;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .feature-card:hover, .about-card:hover{
+      transform: translateY(-6px); box-shadow: var(--glow); border-color: rgba(255,255,255,.35);
+    }
+    .badge-soft{ background: rgba(198,107,255,.18); border:1px solid rgba(198,107,255,.35); color:#fff; }
+    .muted{ color:var(--muted); }
+
+    .timer{
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+      display:flex; gap:1rem; justify-content:center; font-weight:700;
+      text-shadow: var(--text-shadow);
+    }
+    .timer .box{
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      border:1px solid var(--border); border-radius:14px; padding:14px 16px; min-width:96px;
+    }
+
+    .cta-sticky{
+      position: fixed; right: 18px; bottom: 18px; z-index: 1000;
+      border-radius: 20px; box-shadow: var(--glow);
+    }
+    footer{ border-top:1px solid var(--border); background: linear-gradient(180deg, transparent, rgba(255,255,255,.03)); }
+    a{ color:#cbd6ff; }
+    a:hover{ color:#e9f2ff; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <!-- <img src="" alt="Jel Me Up Logo" height="34" class="brand-heart"> -->
+        <strong style="color: #fff;">Jel&nbsp;Me&nbsp;Up</strong>
+      </a>
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+          <li class="nav-item"><a class="nav-link text-white" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#brand">Branding</a></li>
+          <!-- <li class="nav-item"><a class="nav-link text-white" href="#roadmap">Roadmap</a></li> -->
+          <li class="nav-item"><a class="btn btn-sm btn-glow ms-lg-2" href="#waitlist">Join Waitlist</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero section">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <span class="badge badge-soft rounded-pill mb-3">Hyper-local • Offline-first</span>
+          <h1 class="display-4 fw-bolder text-shadow">
+            Meet in real life — within <span style="text-decoration:underline dotted;">100&nbsp;meters</span>.
+          </h1>
+          <p class="lead muted">
+            A social & dating app that actually helps you socialise. Discover people nearby for dating now, with
+            future modes for networking and friendships.
+          </p>
+
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="store-badge" href="#" aria-label="Download on the App Store">
+              <i class="bi bi-apple"></i>
+              <div>
+                <small class="muted d-block" style="line-height:1;">Download on the</small>
+                <strong>App Store</strong>
+              </div>
+            </a>
+            <a class="store-badge" href="#" aria-label="Get it on Google Play">
+              <i class="bi bi-google-play"></i>
+              <div>
+                <small class="muted d-block" style="line-height:1;">GET IT ON</small>
+                <strong>Google Play</strong>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="glass p-4">
+            <!-- <img src="assets/logo.png" class="img-fluid d-block mx-auto" alt="App Logo"> -->
+            <strong>Jel Me Up</strong>
+            <p class="mt-3 text-center muted mb-0">
+              Built for safe, authentic, in-person connections: proximity-based visibility, verified profiles and user approval.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WAITLIST + COUNTDOWN -->
+  <section id="waitlist" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title">Join the Launch Waitlist</h2>
+          <p class="muted">MVP goes live soon. Reserve your username and get early access perks, boosts & invites.</p>
+          <form class="row g-2 glass p-3">
+            <div class="col-md-8">
+              <input type="email" required class="form-control form-control-lg bg-transparent text-white" placeholder="Your email">
+            </div>
+            <div class="col-md-4 d-grid">
+              <button class="btn btn-lg btn-glow">Join Waitlist</button>
+            </div>
+            <small class="muted">By joining, you agree to receive early access updates.</small>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <div class="glass p-4 h-100 d-flex flex-column justify-content-center">
+            <h4 class="mb-3 text-shadow">Time left until public beta</h4>
+            <div class="timer" id="countdown">
+              <div class="box"><div id="d" class="d-block">00</div><small class="muted">Days</small></div>
+              <div class="box"><div id="h" class="d-block">00</div><small class="muted">Hours</small></div>
+              <div class="box"><div id="m" class="d-block">00</div><small class="muted">Minutes</small></div>
+              <div class="box"><div id="s" class="d-block">00</div><small class="muted">Seconds</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / BRAND -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title mb-4">About Us</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="about-card h-100">
+            <h5 class="mb-2">The Problem</h5>
+            <p class="muted mb-0">
+              Authentic offline connections are declining due to endless scrolling. It’s hard to meet organically,
+              find local friends, or date safely nearby. Existing platforms don’t specialise in hyper-local physical
+              connections.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="about-card h-100">
+            <h5 class="mb-2">Our Solution</h5>
+            <p class="muted mb-0">
+              Jel Me Up is a hyper-local app that lets you meet people within a ~100m radius. We start with Dating,
+              then expand to Networking and Friends—powered by interest tags, in-person meetups and strong safety controls.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="brand" class="row g-4 mt-1">
+        <div class="col-md-4">
+          <div class="about-card h-100">
+            <h6 class="muted">Market</h6>
+            <p class="mb-0">
+              India online dating is projected at $350M+ by 2026 (20% CAGR). TAM ≈ 400M urban users (18–35). Hyper-local, offline-first competitors are scarce.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card h-100">
+            <h6 class="muted">Audience</h6>
+            <p class="mb-0">
+              Ages 18–35 across metro to Tier 2/3 cities; heavy IG/Snap/Tinder users; crave instant & safe offline encounters.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card h-100">
+            <h6 class="muted">Brand Values</h6>
+            <p class="mb-0">
+              Safety, privacy and consent; real-world serendipity; playful yet respectful energy; bold, vibrant, optimistic tone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="section-title mb-1">Features</h2>
+      <p class="muted mb-4">Everything you need to meet right around you.</p>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-geo-alt me-2"></i>Real-time Hyper-local Discovery</h5>
+            <p class="muted">See people within ~100m with proximity-aware visibility to encourage safe, real meets.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-stars me-2"></i>Smart Matchmaking</h5>
+            <p class="muted">Match by interests, context, and shared activity; expand later into networking & friend discovery.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-shield-lock me-2"></i>Safety & Consent</h5>
+            <p class="muted">Verified profiles, user approval and granular visibility controls keep interactions respectful.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-calendar-event me-2"></i>Event Mode</h5>
+            <p class="muted">Magically useful at live venues, colleges and co-working spaces for instant intros.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-graph-up-arrow me-2"></i>Freemium + Boosts</h5>
+            <p class="muted">Core features free; premium boosts, virtual gifts, paid icebreakers & venue promos.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card h-100">
+            <h5><i class="bi bi-bullseye me-2"></i>Go-to-Market</h5>
+            <p class="muted">Campus & co-working clusters, influencer stories, corporate/community tie-ins, viral nearby invites.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON / SOCIAL PROOF -->
+  <section class="section">
+    <div class="container">
+      <div class="glass p-4">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7">
+            <h3 class="section-title">Why Jel Me Up?</h3>
+            <p class="muted mb-0">
+              Competitors are great at scale or community, but few are offline-first with real-time proximity across dating, networking and friends—our all-in-one edge.
+            </p>
+          </div>
+          <div class="col-lg-5 text-lg-end">
+            <a href="#waitlist" class="btn btn-glow btn-lg">Get Early Access</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP / METRICS -->
+  <!-- <section id="roadmap" class="section">
+    <div class="container">
+      <h2 class="section-title mb-4">Roadmap & Metrics</h2>
+      <div class="row g-4">
+        <div class="col-md-7">
+          <div class="feature-card h-100">
+            <h6 class="muted">Roadmap</h6>
+            <ul class="mb-0">
+              <li>Q4 2025: Dating MVP launch → Q1 2026: 50K+ users.</li>
+              <li>Q2 2026: Networking & friendship modules; Q3: partnerships/event integrations.</li>
+              <li>Q4 2026: Revenue ramp with B2B and ads network. :contentReference[oaicite:13]{index=13}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="feature-card h-100">
+            <h6 class="muted">Projected Metrics</h6>
+            <ul class="mb-0">
+              <li>DAU: 20–30% of signups</li>
+              <li>Avg. session: 15–20 mins</li>
+              <li>Premium conversion: 5–10%</li>
+              <li>Viral coefficient: K ≈ 1.2 :contentReference[oaicite:14]{index=14}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mt-1">
+        <div class="col-md-6">
+          <div class="feature-card h-100">
+            <h6 class="muted">Team</h6>
+            <p class="mb-0">Founders with social/product/tech backgrounds — Sumit (marketing), Shivam (tech). :contentReference[oaicite:15]{index=15}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="feature-card h-100">
+            <h6 class="muted">Funding</h6>
+            <p class="mb-0">$500k–$1M for 12–18 months (40% product/dev, 40% marketing, 20% ops/legal), aiming for 100K users post-launch. :contentReference[oaicite:16]{index=16}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- FOOTER -->
+  <footer class="section pt-4 pb-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-2">
+            <img src="assets/logo.png" alt="" height="30" class="brand-heart">
+            <strong>Jel Me Up</strong>
+          </div>
+          <p class="muted mt-2 mb-0">© <span id="year"></span> Jel Me Up. All rights reserved.</p>
+        </div>
+        <div class="col-lg-6 text-lg-end">
+          <a class="me-3" href="#">Privacy</a>
+          <a class="me-3" href="#">Terms</a>
+          <a class="btn btn-sm btn-glow" href="#waitlist">Join Waitlist</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA -->
+  <a class="btn btn-lg btn-glow cta-sticky" href="#waitlist"><i class="bi bi-lightning-charge"></i> Join Waitlist</a>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Countdown (set your target date/time)
+    const target = new Date("2026-01-15T12:00:00Z").getTime();
+    const els = {d:document.getElementById("d"),h:document.getElementById("h"),m:document.getElementById("m"),s:document.getElementById("s")};
+    const pad = n => String(n).padStart(2,"0");
+    setInterval(()=>{
+      const now = new Date().getTime();
+      let diff = Math.max(target - now, 0);
+      const d = Math.floor(diff/(1000*60*60*24)); diff -= d*86400000;
+      const h = Math.floor(diff/(1000*60*60)); diff -= h*3600000;
+      const m = Math.floor(diff/(1000*60)); diff -= m*60000;
+      const s = Math.floor(diff/1000);
+      els.d.textContent = pad(d); els.h.textContent = pad(h); els.m.textContent = pad(m); els.s.textContent = pad(s);
+    }, 1000);
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
