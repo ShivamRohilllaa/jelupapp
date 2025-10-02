@@ -12,95 +12,414 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#0b0b10;
-      --bg2:#151523;
-      --accent:#c66bff;
-      --accent2:#6be0ff;
-      --muted:#9aa4b2;
-      --card:#141423;
-      --glass:rgba(255,255,255,.06);
-      --border:rgba(255,255,255,.12);
-      --glow: 0 0 25px rgba(198,107,255,.55), 0 0 50px rgba(107,224,255,.35);
-      --text-shadow: 0 2px 16px rgba(198,107,255,.35), 0 4px 30px rgba(107,224,255,.25);
-      --radius:20px;
+    :root {
+      --bg: #0b0b10;
+      --bg2: #151523;
+      --accent: #c66bff;
+      --accent2: #6be0ff;
+      --muted: #9aa4b2;
+      --card: #141423;
+      --glass: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+      --glow: 0 0 25px rgba(198, 107, 255, 0.55), 0 0 50px rgba(107, 224, 255, 0.35);
+      --text-shadow: 0 2px 16px rgba(198, 107, 255, 0.35), 0 4px 30px rgba(107, 224, 255, 0.25);
+      --radius: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    html,body{background: radial-gradient(1200px 900px at 70% -10%, #1f1740 0%, var(--bg) 45%) fixed; color:#fff;}
-    .text-shadow{ text-shadow: var(--text-shadow); }
-    .navbar{ background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,0)); backdrop-filter: blur(6px); }
-    .brand-heart{ filter: drop-shadow(0 0 12px rgba(198,107,255,.6)); height:42px; }
-    .hero{
-      min-height: 90vh;
-      display:grid;
-      place-items:center;
-      position:relative;
-      overflow:hidden;
+    * {
+      box-sizing: border-box;
     }
-    .hero::after{
-      content:"Jel Me Up";
-      position:absolute; inset:auto -10% -10% auto;
-      font-size: clamp(7rem, 14vw, 18rem);
-      font-weight:800; line-height:.8; opacity:.06;
-      color:#fff; text-shadow: var(--glow);
-      white-space:nowrap; pointer-events:none;
+    
+    html, body {
+      background: radial-gradient(1200px 900px at 70% -10%, #1f1740 0%, var(--bg) 45%) fixed;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      scroll-behavior: smooth;
     }
-    .glass{
-      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.03));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 50px rgba(0,0,0,.45), var(--glow);
-    }
-    .btn-glow{
-      color:#fff; border:1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px);
-      background: linear-gradient(135deg, rgba(198,107,255,.22), rgba(107,224,255,.12));
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .btn-glow:hover{ transform: translateY(-2px); box-shadow: var(--glow); border-color: rgba(255,255,255,.35); color:#fff; }
-
-    .store-badge{
-      display:flex; align-items:center; gap:.6rem; padding:.8rem 1.1rem; border-radius:14px;
-      border:1px solid rgba(255,255,255,.18); text-decoration:none; color:#fff;
-      background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .store-badge:hover{ transform: translateY(-2px); box-shadow: var(--glow); color:#fff; border-color:rgba(255,255,255,.35); }
-    .store-badge .bi{ font-size:1.8rem; }
-
-    .section{ padding: 5rem 0; }
-    .section-title{
-      font-weight:800; letter-spacing:.5px; text-shadow: var(--text-shadow);
-      background: linear-gradient(90deg, #fff, #d9c8ff 40%, #b4f0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-
-    .feature-card, .about-card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border); border-radius:18px; padding:24px;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .feature-card:hover, .about-card:hover{
-      transform: translateY(-6px); box-shadow: var(--glow); border-color: rgba(255,255,255,.35);
-    }
-    .badge-soft{ background: rgba(198,107,255,.18); border:1px solid rgba(198,107,255,.35); color:#fff; }
-    .muted{ color:var(--muted); }
-
-    .timer{
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(1.5rem, 3.4vw, 2.6rem);
-      display:flex; gap:1rem; justify-content:center; font-weight:700;
+    
+    .text-shadow {
       text-shadow: var(--text-shadow);
     }
-    .timer .box{
-      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
-      border:1px solid var(--border); border-radius:14px; padding:14px 16px; min-width:96px;
+    
+    .navbar {
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: var(--transition);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    
+    .brand-heart {
+      filter: drop-shadow(0 0 12px rgba(198, 107, 255, 0.6));
+      height: 42px;
+    }
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem 0;
+    }
+    
+    .hero::after {
+      content: "Jel Me Up";
+      position: absolute;
+      top: 50%;
+      right: -10%;
+      transform: translateY(-50%);
+      font-size: clamp(4rem, 12vw, 16rem);
+      font-weight: 800;
+      line-height: 0.8;
+      opacity: 0.04;
+      color: #fff;
+      text-shadow: var(--glow);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    .glass {
+      background: linear-gradient(180deg, var(--glass), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: var(--transition);
+    }
+    
+    .glass:hover {
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5), var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    .btn-glow {
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: linear-gradient(135deg, rgba(198, 107, 255, 0.22), rgba(107, 224, 255, 0.12));
+      transition: var(--transition);
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-glow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    
+    .btn-glow:hover::before {
+      left: 100%;
+    }
+    
+    .btn-glow:focus {
+      box-shadow: var(--glow), 0 0 0 3px rgba(198, 107, 255, 0.3);
+      color: #fff;
     }
 
-    .cta-sticky{
-      position: fixed; right: 18px; bottom: 18px; z-index: 1000;
-      border-radius: 20px; box-shadow: var(--glow);
+    .store-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: var(--transition);
+      min-width: 160px;
     }
-    footer{ border-top:1px solid var(--border); background: linear-gradient(180deg, transparent, rgba(255,255,255,.03)); }
-    a{ color:#cbd6ff; }
-    a:hover{ color:#e9f2ff; }
+    
+    .store-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.35);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+    }
+    
+    .store-badge .bi {
+      font-size: 2rem;
+      opacity: 0.9;
+    }
+    
+    .store-badge:focus {
+      outline: 2px solid rgba(198, 107, 255, 0.5);
+      outline-offset: 2px;
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .section {
+        padding: 3rem 0;
+      }
+    }
+    
+    .section-title {
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-shadow: var(--text-shadow);
+      background: linear-gradient(90deg, #fff, #d9c8ff 40%, #b4f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    
+    .lead {
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .lead {
+        font-size: 1.1rem;
+      }
+    }
+
+    .feature-card, .about-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .feature-card:hover, .about-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--glow);
+      border-color: rgba(255, 255, 255, 0.35);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    }
+    
+    .feature-card h5, .about-card h5, .about-card h6 {
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    
+    .feature-card .bi {
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px rgba(198, 107, 255, 0.4));
+    }
+    
+    .badge-soft {
+      background: rgba(198, 107, 255, 0.18);
+      border: 1px solid rgba(198, 107, 255, 0.35);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+    }
+    
+    .muted {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .timer {
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      font-weight: 700;
+      text-shadow: var(--text-shadow);
+      flex-wrap: wrap;
+    }
+    
+    .timer .box {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      min-width: 80px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+    
+    .timer .box:hover {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.06));
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    @media (max-width: 576px) {
+      .timer {
+        gap: 0.5rem;
+      }
+      
+      .timer .box {
+        min-width: 60px;
+        padding: 0.75rem 1rem;
+      }
+    }
+
+    .cta-sticky {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1000;
+      border-radius: 20px;
+      box-shadow: var(--glow);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .cta-sticky {
+        right: 15px;
+        bottom: 15px;
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+      }
+    }
+    
+    footer {
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.03));
+      margin-top: 3rem;
+    }
+    
+    a {
+      color: #cbd6ff;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    a:hover {
+      color: #e9f2ff;
+      text-decoration: none;
+    }
+    
+    /* Form input focus styles */
+    input:focus {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(198, 107, 255, 0.5) !important;
+      box-shadow: 0 0 0 3px rgba(198, 107, 255, 0.2) !important;
+      outline: none !important;
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    /* Navbar mobile improvements */
+    .navbar-collapse {
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 12px;
+      margin-top: 1rem;
+      padding: 1rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (min-width: 992px) {
+      .navbar-collapse {
+        background: none;
+        border: none;
+        margin-top: 0;
+        padding: 0;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+    }
+    
+    .nav-link {
+      padding: 0.75rem 1rem !important;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Improved scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #d478ff, #7ee8ff);
+    }
+    
+    /* Accessibility improvements */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    /* Focus visible for better accessibility */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
@@ -109,18 +428,16 @@
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-        <!-- <img src="" alt="Jel Me Up Logo" height="34" class="brand-heart"> -->
         <strong style="color: #fff;">Jel&nbsp;Me&nbsp;Up</strong>
       </a>
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation" style="border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+        <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 30 30%27%3e%3cpath stroke=%27rgba%28255, 255, 255, 0.8%29%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 stroke-width=%272%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3e%3c/svg%3e');"></span>
       </button>
       <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
           <li class="nav-item"><a class="nav-link text-white" href="#about">About</a></li>
           <li class="nav-item"><a class="nav-link text-white" href="#features">Features</a></li>
           <li class="nav-item"><a class="nav-link text-white" href="#brand">Branding</a></li>
-          <!-- <li class="nav-item"><a class="nav-link text-white" href="#roadmap">Roadmap</a></li> -->
           <li class="nav-item"><a class="btn btn-sm btn-glow ms-lg-2" href="#waitlist">Join Waitlist</a></li>
         </ul>
       </div>
@@ -141,29 +458,33 @@
             future modes for networking and friendships.
           </p>
 
-          <div class="d-flex flex-wrap gap-3 mt-4">
+          <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
             <a class="store-badge" href="#" aria-label="Download on the App Store">
               <i class="bi bi-apple"></i>
               <div>
-                <small class="muted d-block" style="line-height:1;">Download on the</small>
-                <strong>App Store</strong>
+                <small class="muted d-block" style="line-height: 1; font-size: 0.75rem;">Download on the</small>
+                <strong style="font-size: 1rem;">App Store</strong>
               </div>
             </a>
             <a class="store-badge" href="#" aria-label="Get it on Google Play">
               <i class="bi bi-google-play"></i>
               <div>
-                <small class="muted d-block" style="line-height:1;">GET IT ON</small>
-                <strong>Google Play</strong>
+                <small class="muted d-block" style="line-height: 1; font-size: 0.75rem;">GET IT ON</small>
+                <strong style="font-size: 1rem;">Google Play</strong>
               </div>
             </a>
           </div>
         </div>
 
         <div class="col-lg-5">
-          <div class="glass p-4">
-            <!-- <img src="assets/logo.png" class="img-fluid d-block mx-auto" alt="App Logo"> -->
-            <strong>Jel Me Up</strong>
-            <p class="mt-3 text-center muted mb-0">
+          <div class="glass p-4 text-center">
+            <div class="mb-3">
+              <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 20px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; box-shadow: var(--glow);">
+                💜
+              </div>
+            </div>
+            <h4 class="mb-3" style="background: linear-gradient(90deg, #fff, #d9c8ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Jel Me Up</h4>
+            <p class="muted mb-0">
               Built for safe, authentic, in-person connections: proximity-based visibility, verified profiles and user approval.
             </p>
           </div>
@@ -179,14 +500,16 @@
         <div class="col-lg-6">
           <h2 class="section-title">Join the Launch Waitlist</h2>
           <p class="muted">MVP goes live soon. Reserve your username and get early access perks, boosts & invites.</p>
-          <form class="row g-2 glass p-3">
+          <form class="row g-3 glass p-4">
             <div class="col-md-8">
-              <input type="email" required class="form-control form-control-lg bg-transparent text-white" placeholder="Your email">
+              <input type="email" required class="form-control form-control-lg" placeholder="Enter your email address" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 12px; padding: 0.75rem 1rem; transition: var(--transition);">
             </div>
             <div class="col-md-4 d-grid">
-              <button class="btn btn-lg btn-glow">Join Waitlist</button>
+              <button type="submit" class="btn btn-lg btn-glow">Join Waitlist</button>
             </div>
-            <small class="muted">By joining, you agree to receive early access updates.</small>
+            <div class="col-12">
+              <small class="muted">By joining, you agree to receive early access updates and product news.</small>
+            </div>
           </form>
         </div>
         <div class="col-lg-6">
@@ -325,61 +648,19 @@
     </div>
   </section>
 
-  <!-- ROADMAP / METRICS -->
-  <!-- <section id="roadmap" class="section">
-    <div class="container">
-      <h2 class="section-title mb-4">Roadmap & Metrics</h2>
-      <div class="row g-4">
-        <div class="col-md-7">
-          <div class="feature-card h-100">
-            <h6 class="muted">Roadmap</h6>
-            <ul class="mb-0">
-              <li>Q4 2025: Dating MVP launch → Q1 2026: 50K+ users.</li>
-              <li>Q2 2026: Networking & friendship modules; Q3: partnerships/event integrations.</li>
-              <li>Q4 2026: Revenue ramp with B2B and ads network. :contentReference[oaicite:13]{index=13}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="feature-card h-100">
-            <h6 class="muted">Projected Metrics</h6>
-            <ul class="mb-0">
-              <li>DAU: 20–30% of signups</li>
-              <li>Avg. session: 15–20 mins</li>
-              <li>Premium conversion: 5–10%</li>
-              <li>Viral coefficient: K ≈ 1.2 :contentReference[oaicite:14]{index=14}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-4 mt-1">
-        <div class="col-md-6">
-          <div class="feature-card h-100">
-            <h6 class="muted">Team</h6>
-            <p class="mb-0">Founders with social/product/tech backgrounds — Sumit (marketing), Shivam (tech). :contentReference[oaicite:15]{index=15}</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="feature-card h-100">
-            <h6 class="muted">Funding</h6>
-            <p class="mb-0">$500k–$1M for 12–18 months (40% product/dev, 40% marketing, 20% ops/legal), aiming for 100K users post-launch. :contentReference[oaicite:16]{index=16}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 
   <!-- FOOTER -->
   <footer class="section pt-4 pb-5">
     <div class="container">
       <div class="row g-4 align-items-center">
         <div class="col-lg-6">
-          <div class="d-flex align-items-center gap-2">
-            <img src="assets/logo.png" alt="" height="30" class="brand-heart">
-            <strong>Jel Me Up</strong>
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div style="width: 30px; height: 30px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; filter: drop-shadow(0 0 12px rgba(198, 107, 255, 0.6));">
+              💜
+            </div>
+            <strong style="font-size: 1.1rem;">Jel Me Up</strong>
           </div>
-          <p class="muted mt-2 mb-0">© <span id="year"></span> Jel Me Up. All rights reserved.</p>
+          <p class="muted mb-0">© <span id="year"></span> Jel Me Up. All rights reserved.</p>
         </div>
         <div class="col-lg-6 text-lg-end">
           <a class="me-3" href="#">Privacy</a>
@@ -391,7 +672,11 @@
   </footer>
 
   <!-- Sticky CTA -->
-  <a class="btn btn-lg btn-glow cta-sticky" href="#waitlist"><i class="bi bi-lightning-charge"></i> Join Waitlist</a>
+  <a class="btn btn-lg btn-glow cta-sticky" href="#waitlist" aria-label="Join the waitlist for early access">
+    <i class="bi bi-lightning-charge me-1"></i>
+    <span class="d-none d-sm-inline">Join Waitlist</span>
+    <span class="d-sm-none">Join</span>
+  </a>
 
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
