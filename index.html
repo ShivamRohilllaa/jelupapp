@@ -420,6 +420,124 @@
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
+    
+    /* Modal Styles */
+    .modal-backdrop-custom {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .modal-backdrop-custom.show {
+      display: flex;
+    }
+    
+    .modal-content-custom {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: var(--glow), 0 20px 60px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      animation: slideUp 0.3s ease;
+      position: relative;
+    }
+    
+    .modal-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 20px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: var(--glow);
+      animation: bounce 0.6s ease;
+    }
+    
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #fff, #d9c8ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .modal-text {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .instagram-button {
+      background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 30px rgba(225, 48, 108, 0.4);
+    }
+    
+    .instagram-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(225, 48, 108, 0.6);
+      color: white;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
   </style>
 </head>
 <body>
@@ -500,12 +618,12 @@
         <div class="col-lg-6">
           <h2 class="section-title">Join the Launch Waitlist</h2>
           <p class="muted">MVP goes live soon. Reserve your username and get early access perks, boosts & invites.</p>
-          <form class="row g-3 glass p-4">
+          <form id="waitlistForm" class="row g-3 glass p-4">
             <div class="col-md-8">
-              <input type="email" required class="form-control form-control-lg" placeholder="Enter your email address" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 12px; padding: 0.75rem 1rem; transition: var(--transition);">
+              <input type="email" id="emailInput" name="user_email" required class="form-control form-control-lg" placeholder="Enter your email address" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 12px; padding: 0.75rem 1rem; transition: var(--transition);">
             </div>
             <div class="col-md-4 d-grid">
-              <button type="submit" class="btn btn-lg btn-glow">Join Waitlist</button>
+              <button type="submit" id="submitBtn" class="btn btn-lg btn-glow">Join Waitlist</button>
             </div>
             <div class="col-12">
               <small class="muted">By joining, you agree to receive early access updates and product news.</small>
@@ -553,7 +671,7 @@
         </div>
       </div>
 
-      <div id="brand" class="row g-4 mt-1">
+      <!-- <div id="brand" class="row g-4 mt-1">
         <div class="col-md-4">
           <div class="about-card h-100">
             <h6 class="muted">Market</h6>
@@ -578,7 +696,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 
@@ -678,9 +796,32 @@
     <span class="d-sm-none">Join</span>
   </a>
 
+  <!-- Success Modal -->
+  <div id="successModal" class="modal-backdrop-custom">
+    <div class="modal-content-custom">
+      <div class="modal-icon">🎉</div>
+      <h2 class="modal-title">Welcome to Jel Me Up!</h2>
+      <p class="modal-text">
+        Thank you for joining our waitlist! You're now on the list for early access.<br><br>
+        <strong>Stay connected with us!</strong><br>
+        Follow us on Instagram for exclusive updates, behind-the-scenes content, and more.
+      </p>
+      <a href="https://www.instagram.com/jelmeup/" target="_blank" class="instagram-button" id="instagramBtn">
+        <i class="bi bi-instagram"></i>
+        Follow @jelmeup
+      </a>
+    </div>
+  </div>
+
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
+    // Initialize EmailJS with your public key
+    // You need to replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+    // Get it from https://dashboard.emailjs.com/admin/account
+    emailjs.init('MQtDOYjO7Nuz6Sfkl'); // Replace with your EmailJS public key
+
     // Countdown (set your target date/time)
     const target = new Date("2026-01-15T12:00:00Z").getTime();
     const els = {d:document.getElementById("d"),h:document.getElementById("h"),m:document.getElementById("m"),s:document.getElementById("s")};
@@ -697,6 +838,66 @@
 
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Handle form submission
+    document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const emailInput = document.getElementById('emailInput');
+      const userEmail = emailInput.value;
+      
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Joining...';
+      
+      // Email parameters matching the EmailJS template
+      const templateParams = {
+        name: 'Jel Me Up Team',
+        email: userEmail
+      };
+      
+      // Send email (will go to both recipients set in EmailJS template)
+      emailjs.send('service_zra9ex9', 'template_lnnml5l', templateParams)
+        .then(function(response) {
+          console.log('Email sent successfully!', response.status, response.text);
+          
+          // Show success modal
+          const modal = document.getElementById('successModal');
+          modal.classList.add('show');
+          
+          // Reset form
+          emailInput.value = '';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Join Waitlist';
+          
+          // Redirect to Instagram after 3 seconds
+          const instagramBtn = document.getElementById('instagramBtn');
+          instagramBtn.addEventListener('click', function() {
+            setTimeout(function() {
+              window.location.href = 'https://www.instagram.com/jelmeup/';
+            }, 500);
+          });
+          
+          // Auto redirect after 5 seconds
+          setTimeout(function() {
+            window.location.href = 'https://www.instagram.com/jelmeup/';
+          }, 5000);
+          
+        }, function(error) {
+          console.error('Failed to send email:', error);
+          alert('Something went wrong. Please try again later.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Join Waitlist';
+        });
+    });
+
+    // Close modal on backdrop click
+    document.getElementById('successModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+      }
+    });
   </script>
 </body>
 </html>
